@@ -345,7 +345,7 @@ class PlantTycoon:
             em.add_field(name='**Grow Time**', value='{0:.1f} minutes'.format(plant['time'] / 60))
             em.add_field(name='**Damage Threshold**', value='{}%'.format(plant['threshold']))
             em.add_field(name='**Badge**', value=plant['badge'])
-            em.add_field(name='**Reward**', value=plant['reward'])
+            em.add_field(name='**Reward**', value='{} GC'.format(plant['reward']))
         else:
             message = 'What plant?'
             em = discord.Embed(message=message, color=discord.Color.red()')
