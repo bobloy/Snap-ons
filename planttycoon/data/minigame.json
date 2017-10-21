@@ -1,5 +1,5 @@
 {
-    {"object": "Apple Core", "action": "trash"},
+    {"object": "Apple Core", "action": "trash"}
     {"object": "Paper Cup", "action": "recycle"},
     {"object": "Banana Peel", "action": "trash"},
     {"object": "Paper Bag", "action": "recycle"},
