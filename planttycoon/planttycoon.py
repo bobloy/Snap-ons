@@ -225,27 +225,20 @@ class PlantTycoon:
 
             if month == 1:
                 self.plants['plants'].append(self.plants['event']['January'])
-                event_plant = True
             elif month == 2:
                 self.plants['plants'].append(self.plants['event']['February'])
-                event_plant = True
             elif month == 3:
                 self.plants['plants'].append(self.plants['event']['March'])
-                event_plant = True
             elif month == 4:
                 self.plants['plants'].append(self.plants['event']['April'])
-                event_plant = True
             elif month == 10:
                 self.plants['plants'].append(self.plants['event']['October'])
-                event_plant = True
             elif month == 11:
                 self.plants['plants'].append(self.plants['event']['November'])
-                event_plant = True
             elif month == 12:
                 self.plants['plants'].append(self.plants['event']['December'])
-                event_plant = True
             else:
-                event_plant = False
+                self.plants['plants'].append({})
 
             #
             # Event Plant Check end
@@ -253,9 +246,8 @@ class PlantTycoon:
 
             plant = choice(self.plants['plants'])
             plant['timestamp'] = int(time.time())
-            if event_plant:
-                index = len(self.plants['plants']) + 1
-                del[self.plants['plants'][index]]
+            index = len(self.plants['plants'])+1
+            del[self.plants['plants'][index]]
             message = 'During one of your many heroic adventures, you came across a mysterious bag that said "pick one". '
             message += 'To your surprise it had all kinds of different seeds in them. And now that you\'re home, you want to plant it. '
             message += 'You went to a local farmer to identify the seed, and the farmer said it was {} **{} ({})** seed.\n\n'.format(plant['article'], plant['name'], plant['rarity'])
