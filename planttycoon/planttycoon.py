@@ -254,7 +254,8 @@ class PlantTycoon:
             plant = choice(self.plants['plants'])
             plant['timestamp'] = int(time.time())
             if event_plant:
-                del[self.plants['plants'][40]]
+                index = len(self.plants['plants']) + 1
+                del[self.plants['plants'][index]]
             message = 'During one of your many heroic adventures, you came across a mysterious bag that said "pick one". '
             message += 'To your surprise it had all kinds of different seeds in them. And now that you\'re home, you want to plant it. '
             message += 'You went to a local farmer to identify the seed, and the farmer said it was {} **{} ({})** seed.\n\n'.format(plant['article'], plant['name'], plant['rarity'])
