@@ -418,7 +418,7 @@ class PlantTycoon:
                 self.bank.deposit_credits(author, amount)
                 message = '{} gro-cash successfully exchanged for credits.'.format(amount)
             else:
-                message = 'You don\'t have enough points. You have {}, but need {}.'.format(self.gardeners[author.id]['points'], amount)
+                message = 'You don\'t have enough gro-cash. You have {}, but need {}.'.format(self.gardeners[author.id]['points'], amount)
         else:
             message = 'Account not found.'
         em = discord.Embed(description=message, color=discord.Color.green())
