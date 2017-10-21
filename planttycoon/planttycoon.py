@@ -348,7 +348,7 @@ class PlantTycoon:
             em.add_field(name='**Reward**', value='{} GC'.format(plant['reward']))
         else:
             message = 'What plant?'
-            em = discord.Embed(message=message, color=discord.Color.red())
+            em = discord.Embed(description=message, color=discord.Color.red())
         await self.bot.say(embed=em)
 
     @_gardening.command(pass_context=True, name='state')
