@@ -186,20 +186,20 @@ class PlantTycoon:
             description = 'Grow your own plant. Be sure to take proper care of yours. If it successfully grows, you get a reward.\n'
             description += 'As you nurture your plant, you gain gro-cash which can be exchanged for credits.\n\n'
             description += '**Commands**\n\n'
-            description += '``{}gardening seed``: Plant a seed inside the earth.\n'.format(prefix)
-            description += '``{}gardening profile``: Check your gardening profile.\n'.format(prefix)
-            description += '``{}gardening plants``: Look at the list of the available plants.\n'.format(prefix)
-            description += '``{}gardening plant``: Look at the details of a plant.\n'.format(prefix)
-            description += '``{}gardening state``: Check the state of your plant.\n'.format(prefix)
-            description += '``{}gardening products``: Look at the list of the available gardening supplies.\n'.format(prefix)
-            description += '``{}gardening buy``: Buy gardening supplies.\n'.format(prefix)
-            description += '``{}gardening convert``: Exchange gro-cash for credits.\n'.format(prefix)
-            description += '``{}shovel``: Shovel your plant out.\n'.format(prefix)
-            description += '``{}water``: Water your plant.\n'.format(prefix)
-            description += '``{}fertilize``: Fertilize the soil.\n'.format(prefix)
-            description += '``{}prune``: Prune your plant.\n'.format(prefix)
+            description += '``{0}gardening seed``: Plant a seed inside the earth.\n'
+            description += '``{0}gardening profile``: Check your gardening profile.\n'
+            description += '``{0}gardening plants``: Look at the list of the available plants.\n'
+            description += '``{0}gardening plant``: Look at the details of a plant.\n'
+            description += '``{0}gardening state``: Check the state of your plant.\n'
+            description += '``{0}gardening products``: Look at the list of the available gardening supplies.\n'
+            description += '``{0}gardening buy``: Buy gardening supplies.\n'
+            description += '``{0}gardening convert``: Exchange gro-cash for credits.\n'
+            description += '``{0}shovel``: Shovel your plant out.\n'
+            description += '``{0}water``: Water your plant.\n'
+            description += '``{0}fertilize``: Fertilize the soil.\n'
+            description += '``{0}prune``: Prune your plant.\n'
 
-            em = discord.Embed(title=title, description=description, color=discord.Color.green())
+            em = discord.Embed(title=title, description=description.format(prefix), color=discord.Color.green())
             em.set_thumbnail(url='https://image.prntscr.com/image/AW7GuFIBSeyEgkR2W3SeiQ.png')
             em.set_footer(text='This cog was made by SnappyDragon18 and PaddoInWonderland. This cog consists of 556 lines (484 sloc) of code.')
             await self.bot.say(embed=em)
