@@ -33,7 +33,7 @@ class PlantTycoon:
         self.degradation_task = bot.loop.create_task(self.check_degradation())
         self.notification_task = bot.loop.create_task(self.send_notification())
 
-        #
+        # 
         # Loading bank
         #
 
