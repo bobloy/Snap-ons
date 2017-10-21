@@ -346,9 +346,10 @@ class PlantTycoon:
             em.add_field(name='**Damage Threshold**', value='{}%'.format(plant['threshold']))
             em.add_field(name='**Badge**', value=plant['badge'])
             em.add_field(name='**Reward**', value=plant['reward'])
-            await self.bot.say(embed=em)
         else:
-            await self.bot.say('What plant?')
+            message = 'What plant?'
+            em = discord.Embed(message=message, color=discord.Color.red()')
+        await self.bot.say(embed=em)
 
     @_gardening.command(pass_context=True, name='state')
     async def _state(self, context):
