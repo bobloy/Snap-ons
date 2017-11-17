@@ -508,7 +508,7 @@ class PlantTycoon:
                         message = 'Your plant died!'
                         delete = True
                 if delete:
-                    await self.bot._send_message(discord.User(id=str(id)), message)
+                    await self.bot.send_message(discord.User(id=str(id)), message)
                     self.gardeners[id]['current'] = False
                     await self._save_gardeners()
             await asyncio.sleep(self.defaults['timers']['completion'] * 60)
@@ -521,7 +521,7 @@ class PlantTycoon:
                     health = gardener.current['health']
                     if health < self.defaults['notification']['max_health']:
                         message = choice(self.notifications['messages'])
-                        await self.bot._send_notification(gardener, message)
+                        await self.bot.send_notification(gardener, message)
             await asyncio.sleep(self.defaults['timers']['notification'] * 60)
 
     def __unload(self):
