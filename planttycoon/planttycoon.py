@@ -73,7 +73,8 @@ class PlantTycoon:
         # Calculating the rate of degradation per check_completion() cycle.
         #
 
-        modifiers = sum([self.products[product]['modifier'] for product in gardener.products if gardener.products[product] > 0] + [self.badges['badges'][badge]['modifier'] for badge in gardener.badges])
+ 
+        modifiers = sum([self.products[product]['modifier'] for product in gardener.products if gardener.products[product] > 0])
         degradation = (100 / (gardener.current['time'] / 60) * (self.defaults['degradation']['base_degradation'] + gardener.current['degradation'])) + modifiers
         d = collections.namedtuple('degradation', 'degradation time modifiers')
         return d(degradation=degradation, time=gardener.current['time'], modifiers=modifiers)
@@ -302,7 +303,7 @@ class PlantTycoon:
                 degradation = await self._degradation(gardener)
                 die_in = await self._die_in(gardener, degradation)
                 to_grow = await self._grow_time(gardener)
-                em.set_footer(text='Total degradation: {0:.2f}% / {1} min (100 / ({2} / 60) * (BaseDegr {3:.2f} + PlantDegr {4:.2f})) + ModDegr {5:.2f}) Your plant will die in {6} minutes and {7:.1f} minutes to go for flowering.'.format(degradation.degradation, self.defaults['timers']['degradation'], degradation.time, self.defaults['degradation']['base_degradation'], gardener.current['degradation'], degradation.modifiers, die_in, to_grow))
+                em.set_footer(text='Total degradation: {0:.2f}% / {1} min (100 / ({2} / 60) * (BaseDegr {3:.2f} + PlantDegr {4:.2f})) + ModDegr {5:.2f) Your plant will die in {6} minutes and {7:.1f} minutes to go for flowering.'.format(degradation.degradation, self.defaults['timers']['degradation'], degradation.time, self.defaults['degradation']['base_degradation'], gardener.current['degradation'], degradation.modifiers, die_in, to_grow))
             await self.bot.say(embed=em)
         else:
             message = 'Who?'
