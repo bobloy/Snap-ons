@@ -290,7 +290,7 @@ class PlantTycoon:
             else:
                 badges = ''
                 for badge in gardener.badges:
-                    badges += '{} {}\n'.format(badge.capitalize(), self.badges['badges'][badge]['modifier'])
+                    badges += '{}\n'.format(badge.capitalize())
                 em.add_field(name='**Badges**', value=badges)
             if not gardener.products:
                 em.add_field(name='**Products**', value='None')
