@@ -202,7 +202,7 @@ class PlantTycoon:
 
             em = discord.Embed(title=title, description=description.format(prefix), color=discord.Color.green())
             em.set_thumbnail(url='https://image.prntscr.com/image/AW7GuFIBSeyEgkR2W3SeiQ.png')
-            em.set_footer(text='This cog was made by SnappyDragon18 and PaddoInWonderland. This cog consists of 550 lines (478 sloc) of code.')
+            em.set_footer(text='This cog was made by SnappyDragon18 and PaddoInWonderland. This cog consists of 552 lines (478 sloc) of code.')
             await self.bot.say(embed=em)
 
     @_gardening.command(pass_context=True, name='seed')
