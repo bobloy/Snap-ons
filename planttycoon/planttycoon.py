@@ -185,7 +185,7 @@ class PlantTycoon:
 
             title = '**Welcome to Plant Tycoon.**\n'
             description = 'Grow your own plant. Be sure to take proper care of yours. If it successfully grows, you get a reward.\n'
-            description += 'As you nurture your plant, you gain gro-cash which can be exchanged for credits.\n\n'
+            description += 'As you nurture your plant, you gain Thneeds which can be exchanged for credits.\n\n'
             description += '**Commands**\n\n'
             description += '``{0}gardening seed``: Plant a seed inside the earth.\n'
             description += '``{0}gardening profile``: Check your gardening profile.\n'
@@ -194,7 +194,7 @@ class PlantTycoon:
             description += '``{0}gardening state``: Check the state of your plant.\n'
             description += '``{0}gardening products``: Look at the list of the available gardening supplies.\n'
             description += '``{0}gardening buy``: Buy gardening supplies.\n'
-            description += '``{0}gardening convert``: Exchange gro-cash for credits.\n'
+            description += '``{0}gardening convert``: Exchange Thneeds for credits.\n'
             description += '``{0}shovel``: Shovel your plant out.\n'
             description += '``{0}water``: Water your plant.\n'
             description += '``{0}fertilize``: Fertilize the soil.\n'
@@ -279,7 +279,7 @@ class PlantTycoon:
             em = discord.Embed(color=discord.Color.green(), description='\a\n')
             avatar = author.avatar_url if author.avatar else author.default_avatar_url
             em.set_author(name='Gardening profile of {}'.format(author.name), icon_url=avatar)
-            em.add_field(name='**Gro-cash**', value=gardener.points)
+            em.add_field(name='**Thneeds**', value=gardener.points)
             if not gardener.current:
                 em.add_field(name='**Currently growing**', value='None')
             else:
@@ -346,7 +346,7 @@ class PlantTycoon:
             em.add_field(name='**Grow Time**', value='{0:.1f} minutes'.format(plant['time'] / 60))
             em.add_field(name='**Damage Threshold**', value='{}%'.format(plant['threshold']))
             em.add_field(name='**Badge**', value=plant['badge'])
-            em.add_field(name='**Reward**', value='{} GC'.format(plant['reward']))
+            em.add_field(name='**Reward**', value='{} τ'.format(plant['reward']))
         else:
             message = 'What plant?'
             em = discord.Embed(description=message, color=discord.Color.red())
@@ -375,7 +375,7 @@ class PlantTycoon:
         """Look at the list of the available gardening supplies."""
         em = discord.Embed(title='All gardening supplies you can buy', description='\a\n', color=discord.Color.green())
         for product in self.products:
-                em.add_field(name='**{}**'.format(product.capitalize()), value='Cost: {} GC\n+{} health\n-{}% damage\nUses: {}\nCategory: {}'.format(self.products[product]['cost'], self.products[product]['health'], self.products[product]['damage'], self.products[product]['uses'], self.products[product]['category']))
+                em.add_field(name='**{}**'.format(product.capitalize()), value='Cost: {} τ\n+{} health\n-{}% damage\nUses: {}\nCategory: {}'.format(self.products[product]['cost'], self.products[product]['health'], self.products[product]['damage'], self.products[product]['uses'], self.products[product]['category']))
         await self.bot.say(embed=em)
 
     @_gardening.command(pass_context=True, name='buy')
@@ -396,7 +396,7 @@ class PlantTycoon:
                     await self._save_gardeners()
                     message = 'You bought {}.'.format(product.lower())
                 else:
-                    message = 'You don\'t have enough gro-cash. You have {}, but need {}.'.format(self.gardeners[author.id]['points'], self.products[product.lower()]['cost'] * amount)
+                    message = 'You don\'t have enough Thneeds. You have {}, but need {}.'.format(self.gardeners[author.id]['points'], self.products[product.lower()]['cost'] * amount)
             else:
                 message = 'I don\'t have this product.'
         em = discord.Embed(description=message, color=discord.Color.green())
@@ -405,15 +405,18 @@ class PlantTycoon:
 
     @_gardening.command(pass_context=True, name='convert')
     async def _convert(self, context, amount: int):
-        """Exchange gro-cash for credits."""
+        """Exchange Thneeds for credits."""
         author = context.message.author
         if self.bank.account_exists(author):
             withdraw_points = await self._withdraw_points(author.id, amount)
+            plural = "";
+            if amount > 0:
+                plural = "s";
             if withdraw_points:
                 self.bank.deposit_credits(author, amount)
-                message = '{} gro-cash successfully exchanged for credits.'.format(amount)
+                message = '{} Thneed{} successfully exchanged for credits.'.format(amount, plural)
             else:
-                message = 'You don\'t have enough gro-cash. You have {}, but need {}.'.format(self.gardeners[author.id]['points'], amount)
+                message = 'You don\'t have enough Thneed{}. You have {}, but need {}.'.format(plural, self.gardeners[author.id]['points'], amount)
         else:
             message = 'Account not found.'
         em = discord.Embed(description=message, color=discord.Color.green())
@@ -503,7 +506,7 @@ class PlantTycoon:
                         self.gardeners[id]['points'] += reward
                         if badge not in self.gardeners[id]['badges']:
                             self.gardeners[id]['badges'].append(badge)
-                        message = 'Your plant made it! You are rewarded with the **{}** badge and you have recieved **{}** gro-cash.'.format(badge, reward)
+                        message = 'Your plant made it! You are rewarded with the **{}** badge and you have recieved **{}** Thneeds.'.format(badge, reward)
                         delete = True
                     if health < 0:
                         message = 'Your plant died!'
