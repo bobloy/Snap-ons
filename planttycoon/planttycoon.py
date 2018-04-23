@@ -192,7 +192,6 @@ class PlantTycoon:
             description += '``{0}gardening plants``: Look at the list of the available plants.\n'
             description += '``{0}gardening plant``: Look at the details of a plant.\n'
             description += '``{0}gardening state``: Check the state of your plant.\n'
-            description += '``{0}gardening products``: Look at the list of the available gardening supplies.\n'
             description += '``{0}gardening buy``: Buy gardening supplies.\n'
             description += '``{0}gardening convert``: Exchange Thneeds for credits.\n'
             description += '``{0}shovel``: Shovel your plant out.\n'
@@ -202,7 +201,7 @@ class PlantTycoon:
 
             em = discord.Embed(title=title, description=description.format(prefix), color=discord.Color.green())
             em.set_thumbnail(url='https://image.prntscr.com/image/AW7GuFIBSeyEgkR2W3SeiQ.png')
-            em.set_footer(text='This cog was made by SnappyDragon18 and PaddoInWonderland. This cog consists of 552 lines (478 sloc) of code.')
+            em.set_footer(text='This cog was made by SnappyDragon18 and PaddoInWonderland. Inspired by The Lorax (2012).')
             await self.bot.say(embed=em)
 
     @_gardening.command(pass_context=True, name='seed')
@@ -370,14 +369,6 @@ class PlantTycoon:
         em = discord.Embed(description=message, color=emcolor)
         await self.bot.say(embed=em)
 
-    @_gardening.command(pass_context=True, name='products')
-    async def _products(self, context):
-        """Look at the list of the available gardening supplies."""
-        em = discord.Embed(title='All gardening supplies you can buy', description='\a\n', color=discord.Color.green())
-        for product in self.products:
-                em.add_field(name='**{}**'.format(product.capitalize()), value='Cost: {} τ\n+{} health\n-{}% damage\nUses: {}\nCategory: {}'.format(self.products[product]['cost'], self.products[product]['health'], self.products[product]['damage'], self.products[product]['uses'], self.products[product]['category']))
-        await self.bot.say(embed=em)
-
     @_gardening.command(pass_context=True, name='buy')
     async def _buy(self, context, product, amount: int):
         """Buy gardening supplies."""
@@ -400,6 +391,10 @@ class PlantTycoon:
             else:
                 message = 'I don\'t have this product.'
         em = discord.Embed(description=message, color=discord.Color.green())
+        if amount is None or product is None:
+            em = discord.Embed(title='All gardening supplies that you can buy:', description='\a\n', color=discord.Color.green())
+            for product in self.products:
+                em.add_field(name='**{}**'.format(product.capitalize()), value='Cost: {} τ\n+{} health\n-{}% damage\nUses: {}\nCategory: {}'.format(self.products[product]['cost'], self.products[product]['health'], self.products[product]['damage'], self.products[product]['uses'], self.products[product]['category']))
         await self.bot.say(embed=em)
         
 
