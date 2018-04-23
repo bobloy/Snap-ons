@@ -370,7 +370,7 @@ class PlantTycoon:
         await self.bot.say(embed=em)
 
     @_gardening.command(pass_context=True, name='buy')
-    async def _buy(self, context, product, amount: int):
+    async def _buy(self, context, product=None, amount: int):
         """Buy gardening supplies."""
         author = context.message.author
         if author.id not in self.gardeners:
@@ -391,7 +391,7 @@ class PlantTycoon:
             else:
                 message = 'I don\'t have this product.'
         em = discord.Embed(description=message, color=discord.Color.green())
-        if amount is None or product is None:
+        if product is None:
             em = discord.Embed(title='All gardening supplies that you can buy:', description='\a\n', color=discord.Color.green())
             for product in self.products:
                 em.add_field(name='**{}**'.format(product.capitalize()), value='Cost: {} τ\n+{} health\n-{}% damage\nUses: {}\nCategory: {}'.format(self.products[product]['cost'], self.products[product]['health'], self.products[product]['damage'], self.products[product]['uses'], self.products[product]['category']))
