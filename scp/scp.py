@@ -34,32 +34,39 @@ class SCP:
 
     @commands.command()
     async def scparc(self, num: int):
-        """Look up SCP archives. Warning: Some of them may be too creepy or gruesome. Reminder: You must specify a valid archive number. (13, 48, 51, 89, 91, 112, 132, 138, 157, 186, 232, 234, 244, 252, 257, 338, 356, 361, 400, 406, 503, 515, 517, 578, 728, 744, 776, 784, 837, 922, 987, 1023)"""
-
-        if num in (
-        13, 48, 51, 89, 91, 112, 132, 138, 157, 186, 232, 234, 244, 252, 257, 338, 356, 361, 400, 406, 503, 515, 517,
-        578, 728, 744, 776, 784, 837, 922, 987, 1023):
+        """Look up SCP archives. Warning: Some of them may be too creepy or gruesome."""
+        valid_archive = (
+                13, 48, 51, 89, 91, 112, 132, 138, 157, 186, 232, 234,
+                244, 252, 257, 338, 356, 361, 400, 406, 503, 515, 517,
+                578, 728, 744, 776, 784, 837, 922, 987, 1023)
+        if num in valid_archive:
             msg = "http://www.scp-wiki.net/scp-{:03}-arc".format(num)
             c = discord.Color.green()
+            em = discord.Embed(description=msg, color=c)
         else:
-            msg = "You must specify a valid archive number."
+            ttl = "You must specify a valid archive number."
+            msg = "{}".format(valid_archive)
             c = discord.Color.red()
 
-        em = discord.Embed(description=msg, color=c)
+            em = discord.Embed(title=ttl, description=msg, color=c)
+
         await self.bot.say(embed=em)
 
     @commands.command()
     async def scpex(self, num: int):
-        """Look up explained SCP articles. Warning: Some of them may be too creepy or gruesome. Reminder: You must specify a valid archive number. (711, 920, 1841, 1851, 1974, 2600, 4023, 8900)"""
-
-        if num in (711, 920, 1841, 1851, 1974, 2600, 4023, 8900):
+        """Look up explained SCP articles. Warning: Some of them may be too creepy or gruesome."""
+        valid_archive = (711, 920, 1841, 1851, 1974, 2600, 4023, 8900)
+        if num in valid_archive:
             msg = "http://www.scp-wiki.net/scp-{:03}-ex".format(num)
             c = discord.Color.green()
+            em = discord.Embed(description=msg, color=c)
         else:
-            msg = "You must specify a valid article number."
+            ttl = "You must specify a valid archive number."
+            msg = "{}".format(valid_archive)
             c = discord.Color.red()
 
-        em = discord.Embed(description=msg, color=c)
+            em = discord.Embed(title=ttl, description=msg, color=c)
+
         await self.bot.say(embed=em)
 
     @commands.command()
