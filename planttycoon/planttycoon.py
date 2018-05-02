@@ -79,7 +79,7 @@ class PlantTycoon:
         modifiers = sum(
             [self.products[product]['modifier'] for product in gardener.products if gardener.products[product] > 0])
         degradation = (100 / (gardener.current['time'] / 60) * (
-                    self.defaults['degradation']['base_degradation'] + gardener.current['degradation'])) + modifiers
+                self.defaults['degradation']['base_degradation'] + gardener.current['degradation'])) + modifiers
         d = collections.namedtuple('degradation', 'degradation time modifiers')
         return d(degradation=degradation, time=gardener.current['time'], modifiers=modifiers)
 
