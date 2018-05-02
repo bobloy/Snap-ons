@@ -348,12 +348,12 @@ class PlantTycoon:
     async def _plant(self, context, *plant):
         """Look at the details of a plant."""
         plant = ' '.join(plant)
+        t = False
         for p in self.plants['plants']:
             if p['name'].lower() == plant.lower():
                 plant = p
                 t = True
                 break
-            t = False
         if t:
             em = discord.Embed(title='Plant statistics of {}'.format(plant['name']), color=discord.Color.green(),
                                description='\a\n')
