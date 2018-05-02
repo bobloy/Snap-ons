@@ -36,9 +36,9 @@ class SCP:
     async def scparc(self, num: int):
         """Look up SCP archives. Warning: Some of them may be too creepy or gruesome."""
         valid_archive = (
-                13, 48, 51, 89, 91, 112, 132, 138, 157, 186, 232, 234,
-                244, 252, 257, 338, 356, 361, 400, 406, 503, 515, 517,
-                578, 728, 744, 776, 784, 837, 922, 987, 1023)
+            13, 48, 51, 89, 91, 112, 132, 138, 157, 186, 232, 234,
+            244, 252, 257, 338, 356, 361, 400, 406, 503, 515, 517,
+            578, 728, 744, 776, 784, 837, 922, 987, 1023)
         if num in valid_archive:
             msg = "http://www.scp-wiki.net/scp-{:03}-arc".format(num)
             c = discord.Color.green()

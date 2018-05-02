@@ -253,11 +253,15 @@ class PlantTycoon:
             plant['timestamp'] = int(time.time())
             index = len(self.plants['plants']) - 1
             del [self.plants['plants'][index]]
-            message = 'During one of your many heroic adventures, you came across a mysterious bag that said "pick one". '
-            message += 'To your surprise it had all kinds of different seeds in them. And now that you\'re home, you want to plant it. '
-            message += 'You went to a local farmer to identify the seed, and the farmer said it was {} **{} ({})** seed.\n\n'.format(
-                plant['article'], plant['name'], plant['rarity'])
-            message += 'Take good care of your seed and water it frequently. Once it blooms, something nice might come from it. If it dies, however, you will get nothing.'
+            message = 'During one of your many heroic adventures, you came across a mysterious bag that said ' \
+                      '"pick one". To your surprise it had all kinds of different seeds in them. ' \
+                      'And now that you\'re home, you want to plant it. ' \
+                      'You went to a local farmer to identify the seed, and the farmer ' \
+                      'said it was {} **{} ({})** seed.\n\n' \
+                      'Take good care of your seed and water it frequently. ' \
+                      'Once it blooms, something nice might come from it. ' \
+                      'If it dies, however, you will get nothing.'.format(plant['article'], plant['name'],
+                                                                          plant['rarity'])
             if 'water' not in self.gardeners[author.id]['products']:
                 self.gardeners[author.id]['products']['water'] = 0
             self.gardeners[author.id]['products']['water'] += 5
@@ -401,7 +405,6 @@ class PlantTycoon:
                                  self.products[product]['category']))
             await self.bot.say(embed=em)
         else:
-            em = discord.Embed(description=message, color=discord.Color.green())
             if author.id not in self.gardeners:
                 message = 'You\'re currently not growing a plant.'
             else:
@@ -421,6 +424,7 @@ class PlantTycoon:
                             self.gardeners[author.id]['points'], self.products[product.lower()]['cost'] * amount)
                 else:
                     message = 'I don\'t have this product.'
+            em = discord.Embed(description=message, color=discord.Color.green())
             await self.bot.say(embed=em)
 
     @_gardening.command(pass_context=True, name='convert')
