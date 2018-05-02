@@ -1,9 +1,11 @@
-from cogs.utils.dataIO import dataIO
-from discord.ext import commands
-import discord
+import asyncio
 import os
 import random
-import asyncio
+
+import discord
+from discord.ext import commands
+
+from cogs.utils.dataIO import dataIO
 
 
 class RPSLS:

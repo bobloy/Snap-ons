@@ -1,11 +1,14 @@
 import discord
 from discord.ext import commands
+
 try:
     from bs4 import BeautifulSoup
+
     soupAvailable = True
 except:
     soupAvailable = False
 import aiohttp
+
 
 class LoveCalculator:
     """Calculate the love percentage for two users!"""
@@ -20,7 +23,8 @@ class LoveCalculator:
         x = lover.display_name
         y = loved.display_name
 
-        url = 'https://www.lovecalculator.com/love.php?name1={}&name2={}'.format(x.replace(" ", "+"), y.replace(" ", "+"))
+        url = 'https://www.lovecalculator.com/love.php?name1={}&name2={}'.format(x.replace(" ", "+"),
+                                                                                 y.replace(" ", "+"))
         async with aiohttp.get(url) as response:
             soupObject = BeautifulSoup(await response.text(), "html.parser")
             try:
@@ -39,10 +43,11 @@ class LoveCalculator:
         except:
             emoji = ''
             title = 'Dr. Love has left a note for you.'
-            
+
         description = emoji + ' ' + description + ' ' + emoji
         em = discord.Embed(title=title, description=description, color=discord.Color.red())
         await self.bot.say(embed=em)
+
 
 def setup(bot):
     if soupAvailable:

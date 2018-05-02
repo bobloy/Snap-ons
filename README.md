@@ -12,7 +12,7 @@ To install the cogs, Follow the given steps:
 **Step 1** - Adding the repo.
 > To add the repo, type this into the chat:
 > 
-> ``[p]cog repo add snappycogs https://github.com/SnappyDragon18/SnappyCogs``
+> ``[p]cog repo add snappycogs https://github.com/bobloy/Snap-ons``
 > 
 > Then type,"I agree".
 

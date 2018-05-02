@@ -1,23 +1,26 @@
-from cogs.utils.dataIO import dataIO
-from discord.ext import commands
-from random import choice
+import asyncio
 import collections
 import datetime
-import discord
-import asyncio
-import time
 import os
+from random import choice
+
+import discord
+import time
+from discord.ext import commands
+
+from cogs.utils.dataIO import dataIO
 
 
 class PlantTycoon:
     """Grow your own plants! Be sure to take proper care of it."""
+
     def __init__(self, bot):
         self.bot = bot
 
         #
         # Loading all data
         #
-        
+
         self.gardeners = dataIO.load_json('data/planttycoon/gardeners.json')
         self.plants = dataIO.load_json('data/planttycoon/plants.json')
         self.products = dataIO.load_json('data/planttycoon/products.json')
@@ -73,9 +76,10 @@ class PlantTycoon:
         # Calculating the rate of degradation per check_completion() cycle.
         #
 
- 
-        modifiers = sum([self.products[product]['modifier'] for product in gardener.products if gardener.products[product] > 0])
-        degradation = (100 / (gardener.current['time'] / 60) * (self.defaults['degradation']['base_degradation'] + gardener.current['degradation'])) + modifiers
+        modifiers = sum(
+            [self.products[product]['modifier'] for product in gardener.products if gardener.products[product] > 0])
+        degradation = (100 / (gardener.current['time'] / 60) * (
+                    self.defaults['degradation']['base_degradation'] + gardener.current['degradation'])) + modifiers
         d = collections.namedtuple('degradation', 'degradation time modifiers')
         return d(degradation=degradation, time=gardener.current['time'], modifiers=modifiers)
 
@@ -141,7 +145,7 @@ class PlantTycoon:
                     self.gardeners[id]['current']['health'] += self.products[product]['health']
                     self.gardeners[id]['products'][product] -= 1
                     if self.gardeners[id]['products'][product] == 0:
-                        del[self.gardeners[id]['products'][product.lower()]]
+                        del [self.gardeners[id]['products'][product.lower()]]
                     if product_category == "water":
                         emoji = ":sweat_drops:"
                     elif product_category == "fertilizer":
@@ -201,7 +205,8 @@ class PlantTycoon:
 
             em = discord.Embed(title=title, description=description.format(prefix), color=discord.Color.green())
             em.set_thumbnail(url='https://image.prntscr.com/image/AW7GuFIBSeyEgkR2W3SeiQ.png')
-            em.set_footer(text='This cog was made by SnappyDragon18 and PaddoInWonderland. Inspired by The Lorax (2012).')
+            em.set_footer(
+                text='This cog was made by SnappyDragon18 and PaddoInWonderland. Inspired by The Lorax (2012).')
             await self.bot.say(embed=em)
 
     @_gardening.command(pass_context=True, name='seed')
@@ -247,10 +252,11 @@ class PlantTycoon:
             plant = choice(self.plants['plants'])
             plant['timestamp'] = int(time.time())
             index = len(self.plants['plants']) - 1
-            del[self.plants['plants'][index]]
+            del [self.plants['plants'][index]]
             message = 'During one of your many heroic adventures, you came across a mysterious bag that said "pick one". '
             message += 'To your surprise it had all kinds of different seeds in them. And now that you\'re home, you want to plant it. '
-            message += 'You went to a local farmer to identify the seed, and the farmer said it was {} **{} ({})** seed.\n\n'.format(plant['article'], plant['name'], plant['rarity'])
+            message += 'You went to a local farmer to identify the seed, and the farmer said it was {} **{} ({})** seed.\n\n'.format(
+                plant['article'], plant['name'], plant['rarity'])
             message += 'Take good care of your seed and water it frequently. Once it blooms, something nice might come from it. If it dies, however, you will get nothing.'
             if 'water' not in self.gardeners[author.id]['products']:
                 self.gardeners[author.id]['products']['water'] = 0
@@ -267,7 +273,7 @@ class PlantTycoon:
             await self.bot.say(embed=em)
 
     @_gardening.command(pass_context=True, name='profile')
-    async def _profile(self, context, *, member: discord.Member=None):
+    async def _profile(self, context, *, member: discord.Member = None):
         """Check your gardening profile."""
         if member:
             author = member
@@ -283,7 +289,8 @@ class PlantTycoon:
                 em.add_field(name='**Currently growing**', value='None')
             else:
                 em.set_thumbnail(url=gardener.current['image'])
-                em.add_field(name='**Currently growing**', value='{0} ({1:.2f}%)'.format(gardener.current['name'], gardener.current['health']))
+                em.add_field(name='**Currently growing**',
+                             value='{0} ({1:.2f}%)'.format(gardener.current['name'], gardener.current['health']))
             if not gardener.badges:
                 em.add_field(name='**Badges**', value='None')
             else:
@@ -296,13 +303,19 @@ class PlantTycoon:
             else:
                 products = ''
                 for product in gardener.products:
-                    products += '{} ({}) {}\n'.format(product.capitalize(), gardener.products[product]/self.products[product.lower()]['uses'], self.products[product]['modifier'])
+                    products += '{} ({}) {}\n'.format(product.capitalize(),
+                                                      gardener.products[product] / self.products[product.lower()][
+                                                          'uses'], self.products[product]['modifier'])
                 em.add_field(name='**Products**', value=products)
             if gardener.current:
                 degradation = await self._degradation(gardener)
                 die_in = await self._die_in(gardener, degradation)
                 to_grow = await self._grow_time(gardener)
-                em.set_footer(text='Total degradation: {0:.2f}% / {1} min (100 / ({2} / 60) * (BaseDegr {3:.2f} + PlantDegr {4:.2f})) + ModDegr {5:.2f}) Your plant will die in {6} minutes and {7:.1f} minutes to go for flowering.'.format(degradation.degradation, self.defaults['timers']['degradation'], degradation.time, self.defaults['degradation']['base_degradation'], gardener.current['degradation'], degradation.modifiers, die_in, to_grow))
+                em.set_footer(
+                    text='Total degradation: {0:.2f}% / {1} min (100 / ({2} / 60) * (BaseDegr {3:.2f} + PlantDegr {4:.2f})) + ModDegr {5:.2f}) Your plant will die in {6} minutes and {7:.1f} minutes to go for flowering.'.format(
+                        degradation.degradation, self.defaults['timers']['degradation'], degradation.time,
+                        self.defaults['degradation']['base_degradation'], gardener.current['degradation'],
+                        degradation.modifiers, die_in, to_grow))
             await self.bot.say(embed=em)
         else:
             message = 'Who?'
@@ -338,7 +351,8 @@ class PlantTycoon:
                 break
             t = False
         if t:
-            em = discord.Embed(title='Plant statistics of {}'.format(plant['name']), color=discord.Color.green(), description='\a\n')
+            em = discord.Embed(title='Plant statistics of {}'.format(plant['name']), color=discord.Color.green(),
+                               description='\a\n')
             em.set_thumbnail(url=plant['image'])
             em.add_field(name='**Name**', value=plant['name'])
             em.add_field(name='**Rarity**', value=plant['rarity'].capitalize())
@@ -364,39 +378,50 @@ class PlantTycoon:
             degradation = await self._degradation(gardener)
             die_in = await self._die_in(gardener, degradation)
             to_grow = await self._grow_time(gardener)
-            message = 'You\'re growing {0} **{1}**. Its health is **{2:.2f}%** and still has to grow for **{3:.1f}** minutes. It is losing **{4:.2f}%** per minute and will die in **{5:.1f}** minutes.'.format(plant['article'], plant['name'], plant['health'], to_grow, degradation.degradation, die_in)
+            message = 'You\'re growing {0} **{1}**. ' \
+                      'Its health is **{2:.2f}%** and still has to grow for **{3:.1f}** minutes. ' \
+                      'It is losing **{4:.2f}%** per minute and will die in **{5:.1f}** minutes.'.format(
+                plant['article'], plant['name'], plant['health'], to_grow, degradation.degradation, die_in)
             emcolor = discord.Color.green()
         em = discord.Embed(description=message, color=emcolor)
         await self.bot.say(embed=em)
 
     @_gardening.command(pass_context=True, name='buy')
-    async def _buy(self, context, product=None, amount: int):
+    async def _buy(self, context, product=None, amount: int = None):
         """Buy gardening supplies."""
         author = context.message.author
-        if author.id not in self.gardeners:
-            message = 'You\'re currently not growing a plant.'
-        else:
-            if product.lower() in self.products and amount > 0:
-                cost = self.products[product.lower()]['cost'] * amount
-                withdraw_points = await self._withdraw_points(author.id, cost)
-                if withdraw_points:
-                    if product.lower() not in self.gardeners[author.id]['products']:
-                        self.gardeners[author.id]['products'][product.lower()] = 0
-                    self.gardeners[author.id]['products'][product.lower()] += amount
-                    self.gardeners[author.id]['products'][product.lower()] += amount * self.products[product.lower()]['uses']
-                    await self._save_gardeners()
-                    message = 'You bought {}.'.format(product.lower())
-                else:
-                    message = 'You don\'t have enough Thneeds. You have {}, but need {}.'.format(self.gardeners[author.id]['points'], self.products[product.lower()]['cost'] * amount)
-            else:
-                message = 'I don\'t have this product.'
-        em = discord.Embed(description=message, color=discord.Color.green())
         if product is None:
-            em = discord.Embed(title='All gardening supplies that you can buy:', description='\a\n', color=discord.Color.green())
+            em = discord.Embed(title='All gardening supplies that you can buy:', description='\a\n',
+                               color=discord.Color.green())
             for product in self.products:
-                em.add_field(name='**{}**'.format(product.capitalize()), value='Cost: {} τ\n+{} health\n-{}% damage\nUses: {}\nCategory: {}'.format(self.products[product]['cost'], self.products[product]['health'], self.products[product]['damage'], self.products[product]['uses'], self.products[product]['category']))
-        await self.bot.say(embed=em)
-        
+                em.add_field(name='**{}**'.format(product.capitalize()),
+                             value='Cost: {} τ\n+{} health\n-{}% damage\nUses: {}\nCategory: {}'.format(
+                                 self.products[product]['cost'], self.products[product]['health'],
+                                 self.products[product]['damage'], self.products[product]['uses'],
+                                 self.products[product]['category']))
+            await self.bot.say(embed=em)
+        else:
+            em = discord.Embed(description=message, color=discord.Color.green())
+            if author.id not in self.gardeners:
+                message = 'You\'re currently not growing a plant.'
+            else:
+                if product.lower() in self.products and amount > 0:
+                    cost = self.products[product.lower()]['cost'] * amount
+                    withdraw_points = await self._withdraw_points(author.id, cost)
+                    if withdraw_points:
+                        if product.lower() not in self.gardeners[author.id]['products']:
+                            self.gardeners[author.id]['products'][product.lower()] = 0
+                        self.gardeners[author.id]['products'][product.lower()] += amount
+                        self.gardeners[author.id]['products'][product.lower()] += amount * \
+                                                                                  self.products[product.lower()]['uses']
+                        await self._save_gardeners()
+                        message = 'You bought {}.'.format(product.lower())
+                    else:
+                        message = 'You don\'t have enough Thneeds. You have {}, but need {}.'.format(
+                            self.gardeners[author.id]['points'], self.products[product.lower()]['cost'] * amount)
+                else:
+                    message = 'I don\'t have this product.'
+            await self.bot.say(embed=em)
 
     @_gardening.command(pass_context=True, name='convert')
     async def _convert(self, context, amount: int):
@@ -411,12 +436,13 @@ class PlantTycoon:
                 self.bank.deposit_credits(author, amount)
                 message = '{} Thneed{} successfully exchanged for credits.'.format(amount, plural)
             else:
-                message = 'You don\'t have enough Thneed{}. You have {}, but need {}.'.format(plural, self.gardeners[author.id]['points'], amount)
+                message = 'You don\'t have enough Thneed{}. You have {}, but need {}.'.format(plural,
+                                                                                              self.gardeners[author.id][
+                                                                                                  'points'], amount)
         else:
             message = 'Account not found.'
         em = discord.Embed(description=message, color=discord.Color.green())
         await self.bot.say(embed=em)
-
 
     @commands.command(pass_context=True, name='shovel')
     async def _shovel(self, context):
@@ -501,7 +527,8 @@ class PlantTycoon:
                         self.gardeners[id]['points'] += reward
                         if badge not in self.gardeners[id]['badges']:
                             self.gardeners[id]['badges'].append(badge)
-                        message = 'Your plant made it! You are rewarded with the **{}** badge and you have recieved **{}** Thneeds.'.format(badge, reward)
+                        message = 'Your plant made it! You are rewarded with the **{}** badge and you have recieved **{}** Thneeds.'.format(
+                            badge, reward)
                         delete = True
                     if health < 0:
                         message = 'Your plant died!'
@@ -546,4 +573,3 @@ def setup(bot):
     check_folder()
     check_file()
     bot.add_cog(PlantTycoon(bot))
-    
