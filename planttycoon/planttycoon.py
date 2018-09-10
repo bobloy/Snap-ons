@@ -391,7 +391,7 @@ class PlantTycoon:
         await self.bot.say(embed=em)
 
     @_gardening.command(pass_context=True, name='buy')
-    async def _buy(self, context, product=None, amount: int = None):
+    async def _buy(self, context, product=None, amount: int = 1):
         """Buy gardening supplies."""
         author = context.message.author
         if product is None:
@@ -405,25 +405,28 @@ class PlantTycoon:
                                  self.products[product]['category']))
             await self.bot.say(embed=em)
         else:
-            if author.id not in self.gardeners:
-                message = 'You\'re currently not growing a plant.'
+            if amount <=0:
+                message = "Invalid amount! Must be greater than 1"
             else:
-                if product.lower() in self.products and amount > 0:
-                    cost = self.products[product.lower()]['cost'] * amount
-                    withdraw_points = await self._withdraw_points(author.id, cost)
-                    if withdraw_points:
-                        if product.lower() not in self.gardeners[author.id]['products']:
-                            self.gardeners[author.id]['products'][product.lower()] = 0
-                        self.gardeners[author.id]['products'][product.lower()] += amount
-                        self.gardeners[author.id]['products'][product.lower()] += amount * \
-                                                                                  self.products[product.lower()]['uses']
-                        await self._save_gardeners()
-                        message = 'You bought {}.'.format(product.lower())
-                    else:
-                        message = 'You don\'t have enough Thneeds. You have {}, but need {}.'.format(
-                            self.gardeners[author.id]['points'], self.products[product.lower()]['cost'] * amount)
+                if author.id not in self.gardeners:
+                    message = 'You\'re currently not growing a plant.'
                 else:
-                    message = 'I don\'t have this product.'
+                    if product.lower() in self.products and amount > 0:
+                        cost = self.products[product.lower()]['cost'] * amount
+                        withdraw_points = await self._withdraw_points(author.id, cost)
+                        if withdraw_points:
+                            if product.lower() not in self.gardeners[author.id]['products']:
+                                self.gardeners[author.id]['products'][product.lower()] = 0
+                            self.gardeners[author.id]['products'][product.lower()] += amount
+                            self.gardeners[author.id]['products'][product.lower()] += amount * \
+                                                                                      self.products[product.lower()]['uses']
+                            await self._save_gardeners()
+                            message = 'You bought {}.'.format(product.lower())
+                        else:
+                            message = 'You don\'t have enough Thneeds. You have {}, but need {}.'.format(
+                                self.gardeners[author.id]['points'], self.products[product.lower()]['cost'] * amount)
+                    else:
+                        message = 'I don\'t have this product.'
             em = discord.Embed(description=message, color=discord.Color.green())
             await self.bot.say(embed=em)
 
