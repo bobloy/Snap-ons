@@ -1,6 +1,8 @@
 # Snap-ons
 SnappyDragon's Cogs for Red-DiscordBot. Red-DiscordBot is a multipurpose bot for Discord developed by Twentysix26.
 
+This repo is for V2 of Red. For V3 cogs, see https://github.com/bobloy/Fox-V3
+
 # Installation
 To install the cogs, Follow the given steps:
 
